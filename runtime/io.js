@@ -230,7 +230,7 @@ function caml_ml_input (chanid, s, i, l) {
 }
 
 //Provides: caml_input_value
-//Requires: caml_marshal_data_size, caml_input_value_from_string, caml_create_bytes, caml_ml_channels
+//Requires: caml_marshal_data_size, caml_input_value_from_bytes, caml_create_bytes, caml_ml_channels
 function caml_input_value (chanid) {
   var chan = caml_ml_channels[chanid];
 
@@ -244,7 +244,7 @@ function caml_input_value (chanid) {
   chan.file.read(chan.offset,buf,0,len);
 
   var offset = [0];
-  var res = caml_input_value_from_string(buf, offset);
+  var res = caml_input_value_from_bytes(buf, offset);
   chan.offset = chan.offset + offset[0];
   return res;
 }

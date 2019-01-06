@@ -45,9 +45,9 @@ var caml_marshal_constants = {
 }
 
 
-//Provides: MlBytesReader
-function MlBytesReader (s, i) { this.s = s; this.i = i; }
-MlBytesReader.prototype = {
+//Provides: MlStringReader
+function MlStringReader (s, i) { this.s = s; this.i = i; }
+MlStringReader.prototype = {
   read8u:function () { return this.s.charCodeAt(this.i++); },
   read8s:function () { return this.s.charCodeAt(this.i++) << 24 >> 24; },
   read16u:function () {
@@ -127,16 +127,16 @@ function caml_float_of_bytes (a) {
 }
 
 //Provides: caml_input_value_from_string mutable
-//Requires: MlBytesReader, caml_input_value_from_reader
+//Requires: MlStringReader, caml_input_value_from_reader
 function caml_input_value_from_string(s,ofs) {
-  var reader = new MlBytesReader (s, typeof ofs=="number"?ofs:ofs[0]);
+  var reader = new MlStringReader (s, typeof ofs=="number"?ofs:ofs[0]);
   return caml_input_value_from_reader(reader, ofs)
 }
 
 //Provides: caml_input_value_from_bytes mutable
-//Requires: MlBytesReader, caml_input_value_from_reader
+//Requires: MlStringReader, caml_input_value_from_reader, caml_string_of_bytes
 function caml_input_value_from_bytes(s,ofs) {
-  var reader = new MlBytesReader (s, typeof ofs=="number"?ofs:ofs[0]);
+  var reader = new MlStringReader (caml_string_of_bytes(s), typeof ofs=="number"?ofs:ofs[0]);
   return caml_input_value_from_reader(reader, ofs)
 }
 

@@ -19,7 +19,7 @@
 
 //Provides: MlFakeDevice
 //Requires: MlFakeFile, caml_create_bytes
-//Requires: caml_raise_sys_error, caml_raise_no_such_file, caml_new_string, caml_string_of_array
+//Requires: caml_raise_sys_error, caml_raise_no_such_file, caml_new_string, caml_string_of_array, caml_bytes_of_string
 //Requires: MlBytes
 function MlFakeDevice (root, f) {
   this.content={};
@@ -101,7 +101,7 @@ MlFakeDevice.prototype.register= function (name,content){
   else if(content instanceof Array)
     this.content[name] = new MlFakeFile(caml_string_of_array(content));
   else if(content.toString) {
-    var mlstring = caml_new_string(content.toString());
+    var mlstring = caml_bytes_of_string(content.toString());
     this.content[name] = new MlFakeFile(mlstring);
   }
 }
